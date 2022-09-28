@@ -1,9 +1,14 @@
 package Pages;
 
 import net.jodah.failsafe.internal.util.Assert;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.Duration;
 
 public class NewUserInformation {
@@ -32,17 +37,33 @@ public class NewUserInformation {
         driver.findElement(register).click();
     }
 
-    public void UserInformation() {
+    public void UserInformation() throws IOException {
+        String path = System.getProperty("user.dir") + "//src//test//java//TestData//NopCommerceUserData.xlsx";
+        FileInputStream prop1 = null;
+        try {
+            prop1 = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        XSSFWorkbook wb = new XSSFWorkbook(prop1);
+        XSSFSheet sheet = wb.getSheet("Sheet1");
+        String firstname = sheet.getRow(1).getCell(0).getStringCellValue();
+        String lastname = sheet.getRow(1).getCell(1).getStringCellValue();
+        String userEmail = sheet.getRow(1).getCell(2).getStringCellValue();
+        String userCompany = sheet.getRow(1).getCell(3).getStringCellValue();
+        String userPassword = sheet.getRow(1).getCell(4).getStringCellValue();
+        String userConfirmPassword = sheet.getRow(1).getCell(5).getStringCellValue();
+
         driver.findElement(genderRadio).click();
-        driver.findElement(firstName).sendKeys("Tarun");
-        driver.findElement(lastName).sendKeys("Jamwal");
+        driver.findElement(firstName).sendKeys(firstname);
+        driver.findElement(lastName).sendKeys(lastname);
         driver.findElement(dateOfBirth).click();
         driver.findElement(month).click();
         driver.findElement(year).click();
-        driver.findElement(email).sendKeys("Tarun@gmail.com");
-        driver.findElement(company).sendKeys("Google");
-        driver.findElement(password).sendKeys("@Tarun123");
-        driver.findElement(confirmPassword).sendKeys("@Tarun123");
+        driver.findElement(email).sendKeys(userEmail);
+        driver.findElement(company).sendKeys(userCompany);
+        driver.findElement(password).sendKeys(userPassword);
+        driver.findElement(confirmPassword).sendKeys(userConfirmPassword);
         driver.findElement(registerButton).click();
     }
 

@@ -1,8 +1,13 @@
 package Pages;
 
 import net.jodah.failsafe.internal.util.Assert;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 public class ProductBuy {
     WebDriver driver;
@@ -28,7 +33,7 @@ public class ProductBuy {
     By buttonContinue = By.xpath("//button[@class='button-1 payment-info-next-step-button']");
     By confirmOrder = By.xpath("//button[@class='button-1 confirm-order-next-step-button']");
     By verifyOrder = By.xpath("//strong[contains(text(),'Your order has been successfully processed!')]");
-    By confirmAddress = By.xpath("//button[@class='button-1 new-address-next-step-button']");
+
 
     public ProductBuy(WebDriver driver) {
         this.driver = driver;
@@ -38,14 +43,36 @@ public class ProductBuy {
         driver.findElement(loginlink).click();
     }
 
-    public void LoginDetails() {
-        driver.findElement(email).sendKeys("Tarun@gmail.com");
-        driver.findElement(password).sendKeys("@Tarun123");
+    public void LoginDetails() throws IOException {
+        String path = System.getProperty("user.dir") + "//src//test//java//TestData//NopCommerceUserData.xlsx";
+        FileInputStream prop1 = null;
+        try {
+            prop1 = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        XSSFWorkbook wb = new XSSFWorkbook(prop1);
+        XSSFSheet sheet = wb.getSheet("Sheet1");
+        String userEmail = sheet.getRow(1).getCell(2).getStringCellValue();
+        String userPassword = sheet.getRow(1).getCell(4).getStringCellValue();
+        driver.findElement(email).sendKeys(userEmail);
+        driver.findElement(password).sendKeys(userPassword);
         driver.findElement(loginButton).click();
     }
 
-    public void ProductAndAddress() {
-        driver.findElement(searchBox).sendKeys("Apple MacBook Pro 13-inch");
+    public void ProductAndAddress() throws IOException {
+        String path = System.getProperty("user.dir") + "//src//test//java//TestData//NopCommerceUserData.xlsx";
+        FileInputStream prop1 = null;
+        try {
+            prop1 = new FileInputStream(path);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        XSSFWorkbook wb = new XSSFWorkbook(prop1);
+        XSSFSheet sheet = wb.getSheet("Sheet1");
+        String buyProduct = sheet.getRow(1).getCell(6).getStringCellValue();
+        String userCity = sheet.getRow(1).getCell(7).getStringCellValue();
+        driver.findElement(searchBox).sendKeys(buyProduct);
         driver.findElement(searchButton).click();
         driver.findElement(product).click();
         driver.findElement(addToCart).click();
@@ -53,7 +80,7 @@ public class ProductBuy {
         driver.findElement(termsAndCondition).click();
         driver.findElement(checkout).click();
         driver.findElement(country).click();
-        driver.findElement(city).sendKeys("Shanghai");
+        driver.findElement(city).sendKeys(userCity);
         driver.findElement(address).sendKeys("H.No.-512,Chowmin Street");
         driver.findElement(zip).sendKeys("175001");
         driver.findElement(phoneNumber).sendKeys("987654321");

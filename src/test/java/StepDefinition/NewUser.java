@@ -19,7 +19,7 @@ public class NewUser extends BaseClass {
     }
 
     @When("Fill the user infornation")
-    public void fill_the_user_infornation() {
+    public void fill_the_user_infornation() throws IOException {
         pageFactory.getNewUserInformation().UserInformation();
 
     }

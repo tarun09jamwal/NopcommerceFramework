@@ -19,12 +19,12 @@ public class ProductBuy extends BaseClass {
     }
 
     @When("Enter the useremail and password click login")
-    public void enter_the_useremail_and_password_click_login() {
+    public void enter_the_useremail_and_password_click_login() throws IOException {
         pageFactory.getProductBuy().LoginDetails();
     }
 
     @When("Search the product and checkout")
-    public void search_the_product_and_checkout() {
+    public void search_the_product_and_checkout() throws IOException {
         pageFactory.getProductBuy().ProductAndAddress();
 
     }
