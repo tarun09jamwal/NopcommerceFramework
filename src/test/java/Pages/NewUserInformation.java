@@ -39,7 +39,7 @@ public class NewUserInformation {
         driver.findElement(dateOfBirth).click();
         driver.findElement(month).click();
         driver.findElement(year).click();
-        driver.findElement(email).sendKeys("hdfwf@gmail.com");
+        driver.findElement(email).sendKeys("Tarun@gmail.com");
         driver.findElement(company).sendKeys("Google");
         driver.findElement(password).sendKeys("@Tarun123");
         driver.findElement(confirmPassword).sendKeys("@Tarun123");
@@ -49,6 +49,7 @@ public class NewUserInformation {
     public void VerifyNewUser() {
         String actual = driver.findElement(userVerify).getText();
         Assert.isTrue(actual.equals("Your registration completed"), "Expected result does not match with actual result");
+        driver.close();
     }
 
 }

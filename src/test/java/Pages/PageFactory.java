@@ -6,6 +6,7 @@ public class PageFactory {
     WebDriver driver;
     private ProductSearch productSearch;
     private NewUserInformation newUserInformation;
+    private ProductBuy productBuy;
 
     public PageFactory(WebDriver driver) {
         this.driver = driver;
@@ -23,5 +24,12 @@ public class PageFactory {
             newUserInformation = new NewUserInformation(driver);
         }
         return newUserInformation;
+    }
+
+    public ProductBuy getProductBuy() {
+        if (productBuy == null) {
+            productBuy = new ProductBuy(driver);
+        }
+        return productBuy;
     }
 }
